@@ -40,7 +40,7 @@ def handle_interrupt(channel):
         print "We sensed lightning!"
         print "It was " + str(distance) + "km away. (%s)" % now
         print ""
-        output_string =  'emp_distance_km{{sensor="AS3935"}} ' + str(distance) + '\n'
+        output_string =  'emp_distance_km{sensor="AS3935"} ' + str(distance) + '\n'
         logfilehandle = open(LOGFILE, "w",1)
         logfilehandle.write(output_string)
         logfilehandle.close()
@@ -53,10 +53,16 @@ GPIO.add_event_detect(pin, GPIO.RISING, callback=handle_interrupt)
 now = datetime.now().strftime('%H:%M:%S - %Y/%m/%d')
 print "%s Waiting for lightning - or at least something that looks like it" % now
 
-output_string =  'emp_distance_km{{sensor="AS3935"}} 42\n' 
+output_string =  'emp_distance_km{sensor="AS3935"} 42\n' 
 logfilehandle = open(LOGFILE, "w",1)
 logfilehandle.write(output_string)
 logfilehandle.close()
 
 while True:
-    time.sleep(1.0)
+    time.sleep(10)
+    now = datetime.now().strftime('%H:%M:%S - %Y/%m/%d')
+    distance = sensor.get_distance()
+    if distance != False:
+      print "last distance " + str(distance) + "km away. (%s)" % now
+    #else:
+    #  print "nothing new at %s" % now
