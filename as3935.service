@@ -1,0 +1,10 @@
+[Unit]
+Description=AS3935 lightning strike sensor
+
+[Service]
+User=root
+Restart=always
+ExecStart=/usr/local/bin/as3935-service.py
+
+[Install]
+WantedBy=multi-user.target
